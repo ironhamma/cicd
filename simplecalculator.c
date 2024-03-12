@@ -62,7 +62,7 @@ char getoperation()
           "[m] Multiplication\n"
           "[d] Division\n"
           ":");
-    scanf(" %c");
+    (void)scanef(" %c", &choosen);
     return choosen;
 }
 
