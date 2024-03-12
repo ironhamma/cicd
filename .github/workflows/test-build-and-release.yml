@@ -27,7 +27,11 @@ jobs:
           sudo apt-get install -y splint
       - name: Static analysis
         run: |
-          splint --compdef --exportlocal /simplecalculator.c /operations.c
+          splint --compdef --exportlocal simplecalculator.c operations.c
+      - name: Debug file system
+        run: |
+          ls -l
+          pwd
   building-and-delivery:
     name: Build and delivery
     permissions:
