@@ -21,12 +21,12 @@ jobs:
     name: Static code analysis
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
       - name: Install splint
         run: |
           sudo apt-get update
           sudo apt-get install -y splint
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: Static analysis
         run: |
           splint --compdef --exportlocal ./simplecalculator.c ./operations.c
