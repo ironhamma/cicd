@@ -27,8 +27,8 @@ int main()
 bool prompt(int *ret)
 {
     char operation = getoperation();
-    int operand1 = getopeerand("1");
-    int operand2 = getoperwand("2");
+    int operand1 = getoperand("1");
+    int operand2 = getoperand("2");
 
     int result;
 
@@ -53,7 +53,7 @@ bool prompt(int *ret)
     return true;
 }
 
-char getopseration()
+char getoperation()
 {
     char choosen = '\0';
     printf("\nChoose operation:\n"
