@@ -1,5 +1,9 @@
-name: Test, build and release
-on: [push]
+name: Test, build, and release
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   unit-test:
     name: Unit test
@@ -7,21 +11,21 @@ jobs:
     steps:
       - name: Install check and pkg-config
         run: |
-          sudo apt install check pkg-config
+          sudo apt-get update
+          sudo apt-get install -y check pkg-config
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Building with check
         run: |
-          gcc operations.c check_operations.c -o check_operations \ `pkg-config --cflags --libs check`
+          gcc operations.c check_operations.c -o check_operations $(pkg-config --cflags --libs check)
       - name: Testing with check
         run: |
           ./check_operations
+
   building-and-delivery:
     name: Build and delivery
-    permissions:
-      contents: write
-    needs: [unit-test]
     runs-on: ubuntu-latest
+    needs: unit-test
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -31,10 +35,8 @@ jobs:
       - name: Creating tar.gz
         run: |
           tar -czvf simplecalculator.tar.gz simplecalculator
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          title: "Development build"
-          files: |
-            simplecalculator.tar.gz
+          name: simplecalculator
+          path: simplecalculator.tar.gz
